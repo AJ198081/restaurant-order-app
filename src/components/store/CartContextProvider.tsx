@@ -1,41 +1,63 @@
 import React, {useReducer} from "react";
-import CartContext, {cartContextDefaultValue, CartContextType, item} from "./cart-context";
+import CartContext, {CartContextType, item} from "./cart-context";
 
 interface CartContextProviderProps {
     children: React.ReactNode;
 }
-
-const initialCartState = {
-    items: [] as item[],
-    totalAmount: 0
-};
 
 interface CartStateType {
     items: item[];
     totalAmount: number;
 }
 
-const cartStateReducer = (state: CartStateType, action: React.ReducerAction<CartStateType>) => {
-    return initialCartState;
+const initialCartState = {
+    items: [] as item[],
+    totalAmount: 0
+} as CartStateType;
 
+type Action = {
+    type: 'ADD';
+    payload: item;
+} | {
+    type: 'REMOVE';
+    payload: string;
+}
 
+const cartReducer = (state: CartStateType, action: Action) => {
+
+    const {type, payload} = action as {type: string, payload: item};
+
+    switch (type) {
+        case 'ADD':
+            const updatedItems = {...state.items, payload};
+            const updatedTotalAmount = state.totalAmount + payload.price * payload.number;
+            return {
+                items: updatedItems,
+                totalAmount: updatedTotalAmount
+            }
     }
-;
+
+    return initialCartState;
+};
+
 const CartContextProvider = ({children}: CartContextProviderProps) => {
 
-    const [cartState, dispatchCart] = useReducer(cartStateReducer, initialCartState);
+    const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
-    const addItemHandler = (item: item) => {
-        dispatchCart({type: 'ADD', payload: item})
+    const addItemHandler = (itemToBeAdded: item) => {
+
+        dispatch({type: 'ADD', payload: itemToBeAdded})
     };
 
     const removeItemHandler = (id: string) => {
 
+        dispatch({type: 'REMOVE', payload: id})
+
     };
 
     const cartContext = {
-        items: cartState.items,
-        totalAmount: cartState.totalAmount,
+        items: initialCartState.items,
+        totalAmount: initialCartState.totalAmount,
         addItem: addItemHandler,
         removeItem: removeItemHandler
 

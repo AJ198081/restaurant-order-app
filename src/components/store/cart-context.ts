@@ -4,6 +4,7 @@ import {createContext} from "react";
 export interface item {
     id: string;
     name: string;
+    price: number;
     number: number;
 }
 

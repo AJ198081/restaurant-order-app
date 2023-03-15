@@ -1,10 +1,12 @@
 // @ts-ignore
 import classes from './Input.module.css';
+import React, {RefObject} from "react";
 
 interface InputProps {
     label: string;
     input: {
         id: string;
+        ref: RefObject<HTMLInputElement>;
         type: 'number' | 'text' | 'email' | 'password';
         min?: string;
         max?: string;
