@@ -1,12 +1,11 @@
 // @ts-ignore
 import classes from './Input.module.css';
-import React, {RefObject} from "react";
+import React from "react";
 
 interface InputProps {
     label: string;
     input: {
         id: string;
-        ref: RefObject<HTMLInputElement>;
         type: 'number' | 'text' | 'email' | 'password';
         min?: string;
         max?: string;
@@ -15,12 +14,12 @@ interface InputProps {
     };
 }
 
-const Input = (props: InputProps) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(({label, input}: InputProps, ref): JSX.Element => {
 
     return <div className={classes.input}>
-        <label htmlFor={props.input.id}>{props.label}</label>
-        <input {...props.input}/>
+        <label htmlFor={input.id}>{label}</label>
+        <input {...input} ref={ref}/>
     </div>;
-}
+})
 
 export default Input;
