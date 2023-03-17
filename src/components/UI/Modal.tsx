@@ -4,7 +4,8 @@ import React, {Fragment} from "react";
 import ReactDOM from "react-dom";
 
 interface ModalProps {
-    children: React.ReactNode;
+    onClick: () => void
+        children: React.ReactNode;
 }
 
 interface BackdropProps {

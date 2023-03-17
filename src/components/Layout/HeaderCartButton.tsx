@@ -4,13 +4,8 @@ import classes from './HeaderCartButton.module.css';
 import {useContext} from "react";
 import CartContext from "../store/cart-context";
 
-
 interface HeaderCartButtonProps {
-
-}
-
-interface HeaderCartButtonProps {
-    onClick: (value: (((prevState: boolean) => boolean) | boolean)) => void
+    onClick: () => void
 }
 
 const HeaderCartButton = ({ onClick }: HeaderCartButtonProps): JSX.Element=> {
@@ -21,7 +16,7 @@ const HeaderCartButton = ({ onClick }: HeaderCartButtonProps): JSX.Element=> {
         return total + currentValue.number;
     }, 0);
 
-    return <button className={classes.button} onClick={() => onClick}>
+    return <button className={classes.button} onClick={onClick}>
         <span className={classes.icon}>
             <CartIcon/>
         </span>

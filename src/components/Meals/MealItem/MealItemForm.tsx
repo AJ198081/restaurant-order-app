@@ -11,18 +11,18 @@ interface MealItemFormProps {
 
 const MealItemForm = ({id, onAddToCart}: MealItemFormProps): JSX.Element => {
 
-    const [validAmount, setValidAmount] = useState(false);
+    const [validAmount, setValidAmount] = useState<boolean>(true);
     const amountInputRef = useRef<HTMLInputElement>(null);
 
     const submitHandler = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
         amountInputRef.current && (amountInputRef.current.value.trim().length === 0 ||
-        parseFloat(amountInputRef.current.value) < 1)
+        parseInt(amountInputRef.current.value) < 1)
             ? setValidAmount(false)
             : setValidAmount(true);
 
-        const enteredAmount = amountInputRef.current && parseFloat(amountInputRef.current.value);
+        const enteredAmount = amountInputRef.current && parseInt(amountInputRef.current.value);
 
         enteredAmount && onAddToCart(enteredAmount);
 
