@@ -1,8 +1,9 @@
 // @ts-ignore
 import classes from './Cart.module.css';
 import Modal from "../UI/Modal";
-import CartContext from "../store/cart-context";
+import CartContext, {item} from "../store/cart-context";
 import {useContext} from "react";
+import CartItem from "./CartItem";
 
 interface CartProps {
     onClose: () => void
@@ -16,10 +17,21 @@ const Cart = ({onClose}: CartProps) => {
 
     const hasItems = cartContext.items.length > 0;
 
-       return (<Modal onClick={onClose}>
+    const cartItemRemoveHandler = (id: string) => {
+        console.log('remove', id)
+    }
+
+    const cartItemAddHandler = (item: item) => {
+        console.log('add', item);
+    }
+
+    return (<Modal onClick={onClose}>
         <ul className={classes['cart-items']}>
             {cartContext.items.map((cartItem) => (
-                <li key={cartItem.id}>{cartItem.name}</li>
+                <CartItem key={cartItem.id} name={cartItem.name} price={cartItem.price}
+                          amount={cartItem.number}
+                          onAdd={cartItemAddHandler.bind(null, cartItem)}
+                          onRemove={cartItemRemoveHandler.bind(null, cartItem.id)}/>
             ))}
         </ul>
 

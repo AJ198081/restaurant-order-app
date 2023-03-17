@@ -25,12 +25,29 @@ type Action = {
 
 const cartReducer = (state: CartStateType, action: Action) => {
 
-    const {type, payload} = action as {type: string, payload: item};
+    const {type, payload} = action as { type: string, payload: item };
 
     switch (type) {
         case 'ADD':
-            const updatedItems = [...state.items, payload];
+            let updatedItems: item[];
+            const existingItemIndex = state.items.findIndex(item => item.id === payload.id);
+
+            let updatedItem: item;
+
+            if (existingItemIndex !== -1) {
+                const existingItem = state.items[existingItemIndex];
+                updatedItem = {
+                    ...existingItem,
+                    number: existingItem.number + payload.number
+                }
+                updatedItems = [...state.items]
+                updatedItems[existingItemIndex] = updatedItem;
+            } else {
+                updatedItems = [...state.items, payload]
+            }
+
             const updatedTotalAmount = state.totalAmount + (payload.price * payload.number);
+
             return {
                 items: updatedItems,
                 totalAmount: updatedTotalAmount,
