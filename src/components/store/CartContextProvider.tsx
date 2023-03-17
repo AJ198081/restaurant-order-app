@@ -29,12 +29,17 @@ const cartReducer = (state: CartStateType, action: Action) => {
 
     switch (type) {
         case 'ADD':
-            const updatedItems = {...state.items, payload};
-            const updatedTotalAmount = state.totalAmount + payload.price * payload.number;
+            const updatedItems = [...state.items, payload];
+            const updatedTotalAmount = state.totalAmount + (payload.price * payload.number);
             return {
                 items: updatedItems,
-                totalAmount: updatedTotalAmount
-            }
+                totalAmount: updatedTotalAmount,
+            };
+        case 'REMOVE':
+            console.log(type, payload);
+            return {...state};
+        default:
+            console.log('Error with the entered type');
     }
 
     return initialCartState;
@@ -45,7 +50,6 @@ const CartContextProvider = ({children}: CartContextProviderProps) => {
     const [state, dispatch] = useReducer(cartReducer, initialCartState);
 
     const addItemHandler = (itemToBeAdded: item) => {
-
         dispatch({type: 'ADD', payload: itemToBeAdded})
     };
 
@@ -56,11 +60,10 @@ const CartContextProvider = ({children}: CartContextProviderProps) => {
     };
 
     const cartContext = {
-        items: initialCartState.items,
-        totalAmount: initialCartState.totalAmount,
+        items: state.items,
+        totalAmount: state.totalAmount,
         addItem: addItemHandler,
         removeItem: removeItemHandler
-
     } as CartContextType;
 
 

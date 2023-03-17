@@ -16,13 +16,12 @@ const Cart = ({onClose}: CartProps) => {
 
     const hasItems = cartContext.items.length > 0;
 
-    const cartItems = (cartContext.items
-        .map(item => {
-            return <li key={item.id}>{item.name}</li>;
-        }));
-
-    return (<Modal onClick={onClose}>
-        <ul className={classes['cart-items']}>{cartItems}</ul>
+       return (<Modal onClick={onClose}>
+        <ul className={classes['cart-items']}>
+            {cartContext.items.map((cartItem) => (
+                <li key={cartItem.id}>{cartItem.name}</li>
+            ))}
+        </ul>
 
         <div className={classes.total}>
             <span>Total Amount</span>
