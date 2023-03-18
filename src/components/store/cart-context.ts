@@ -12,14 +12,14 @@ export interface CartContextType {
     items: item[];
     totalAmount: number;
     addItem: (item: item) => void
-    removeItem: (id: string) => void
+    removeItem: (item: item) => void
 }
 
 export const cartContextDefaultValue = {
     items: [],
     totalAmount: 0,
     addItem: (item) => {},
-    removeItem: (id) => {},
+    removeItem: (item) => {},
 } as CartContextType;
 
 const CartContext = createContext(cartContextDefaultValue);

@@ -17,12 +17,14 @@ const Cart = ({onClose}: CartProps) => {
 
     const hasItems = cartContext.items.length > 0;
 
-    const cartItemRemoveHandler = (id: string) => {
-        console.log('remove', id)
+    const cartItemRemoveHandler = (item: item) => {
+        console.log('remove', {...item, number: 1})
+        cartContext.removeItem({...item, number: 1});
     }
 
     const cartItemAddHandler = (item: item) => {
         console.log('add', item);
+        cartContext.addItem({...item, number: 1});
     }
 
     return (<Modal onClick={onClose}>
@@ -31,7 +33,7 @@ const Cart = ({onClose}: CartProps) => {
                 <CartItem key={cartItem.id} name={cartItem.name} price={cartItem.price}
                           amount={cartItem.number}
                           onAdd={cartItemAddHandler.bind(null, cartItem)}
-                          onRemove={cartItemRemoveHandler.bind(null, cartItem.id)}/>
+                          onRemove={cartItemRemoveHandler.bind(null, cartItem)}/>
             ))}
         </ul>
 

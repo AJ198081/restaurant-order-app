@@ -16,51 +16,77 @@ const initialCartState = {
 } as CartStateType;
 
 type Action = {
-    type: 'ADD';
+    type: 'ADD' | 'REMOVE';
     payload: item;
-} | {
-    type: 'REMOVE';
-    payload: string;
 }
 
 const cartReducer = (state: CartStateType, action: Action) => {
 
-    const {type, payload} = action as { type: string, payload: item };
+        const {type, payload} = action as { type: string, payload: item };
 
-    switch (type) {
-        case 'ADD':
-            let updatedItems: item[];
-            const existingItemIndex = state.items.findIndex(item => item.id === payload.id);
+        let updatedItems: item[];
+        let updatedItem: item;
+        let updatedTotalAmount;
 
-            let updatedItem: item;
+        switch (type) {
 
-            if (existingItemIndex !== -1) {
-                const existingItem = state.items[existingItemIndex];
-                updatedItem = {
-                    ...existingItem,
-                    number: existingItem.number + payload.number
+            case 'ADD':
+                const existingItemIndex = state.items.findIndex(item => item.id === payload.id);
+
+
+                if (existingItemIndex !== -1) {
+                    const existingItem = state.items[existingItemIndex];
+                    updatedItem = {
+                        ...existingItem,
+                        number: existingItem.number + payload.number
+                    }
+                    updatedItems = [...state.items]
+                    updatedItems[existingItemIndex] = updatedItem;
+                } else {
+                    updatedItems = [...state.items, payload]
                 }
-                updatedItems = [...state.items]
-                updatedItems[existingItemIndex] = updatedItem;
-            } else {
-                updatedItems = [...state.items, payload]
-            }
 
-            const updatedTotalAmount = state.totalAmount + (payload.price * payload.number);
+                updatedTotalAmount = state.totalAmount + (payload.price * payload.number);
 
-            return {
-                items: updatedItems,
-                totalAmount: updatedTotalAmount,
-            };
-        case 'REMOVE':
-            console.log(type, payload);
-            return {...state};
-        default:
-            console.log('Error with the entered type');
+                return {
+                    items: updatedItems,
+                    totalAmount: updatedTotalAmount,
+                };
+
+            case 'REMOVE':
+
+                const indexOfExistingItem = state.items.findIndex(item => item.id === payload.id);
+
+                if (indexOfExistingItem !== -1) {
+                    const existingItem = state.items[indexOfExistingItem];
+
+                    if ((existingItem.number - payload.number) >= 1) {
+                        updatedItem = {
+                            ...existingItem,
+                            number: existingItem.number - payload.number
+                        }
+                        updatedItems = [...state.items];
+                        updatedItems[indexOfExistingItem] = updatedItem;
+                    } else {
+                        updatedItems = state.items.filter(item => item.id !== payload.id);
+                    }
+
+                    updatedTotalAmount = state.totalAmount - (payload.number * payload.price);
+
+                    return {
+                        items: updatedItems,
+                        totalAmount: updatedTotalAmount
+                    }
+                }
+
+                return {...state};
+            default:
+                console.log('Error with the entered type');
+        }
+
+        return initialCartState;
     }
-
-    return initialCartState;
-};
+;
 
 const CartContextProvider = ({children}: CartContextProviderProps) => {
 
@@ -70,10 +96,8 @@ const CartContextProvider = ({children}: CartContextProviderProps) => {
         dispatch({type: 'ADD', payload: itemToBeAdded})
     };
 
-    const removeItemHandler = (id: string) => {
-
-        dispatch({type: 'REMOVE', payload: id})
-
+    const removeItemHandler = (itemToBeRemoved: item) => {
+        dispatch({type: 'REMOVE', payload: itemToBeRemoved})
     };
 
     const cartContext = {
