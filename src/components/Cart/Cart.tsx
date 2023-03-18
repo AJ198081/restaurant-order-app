@@ -13,7 +13,7 @@ const Cart = ({onClose}: CartProps) => {
 
     const cartContext = useContext(CartContext);
 
-    const totalAmount = `$${cartContext.totalAmount.toFixed(2)}`;
+    const totalAmount = `$${Math.abs(cartContext.totalAmount).toFixed(2)}`;
 
     const hasItems = cartContext.items.length > 0;
 

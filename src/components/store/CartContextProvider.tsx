@@ -33,7 +33,6 @@ const cartReducer = (state: CartStateType, action: Action) => {
             case 'ADD':
                 const existingItemIndex = state.items.findIndex(item => item.id === payload.id);
 
-
                 if (existingItemIndex !== -1) {
                     const existingItem = state.items[existingItemIndex];
                     updatedItem = {
@@ -72,16 +71,17 @@ const cartReducer = (state: CartStateType, action: Action) => {
                     }
 
                     updatedTotalAmount = state.totalAmount - (payload.number * payload.price);
-
-                    return {
-                        items: updatedItems,
-                        totalAmount: updatedTotalAmount
-                    }
+                } else {
+                    break;
+                }
+                return {
+                    items: updatedItems,
+                    totalAmount: updatedTotalAmount
                 }
 
-                return {...state};
             default:
                 console.log('Error with the entered type');
+                break;
         }
 
         return initialCartState;
