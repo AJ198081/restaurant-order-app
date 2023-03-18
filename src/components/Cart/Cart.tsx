@@ -14,7 +14,6 @@ const Cart = ({onClose}: CartProps) => {
     const cartContext = useContext(CartContext);
 
     const totalAmount = `$${Math.abs(cartContext.totalAmount).toFixed(2)}`;
-
     const hasItems = cartContext.items.length > 0;
 
     const cartItemRemoveHandler = (item: item) => {
@@ -46,7 +45,6 @@ const Cart = ({onClose}: CartProps) => {
             <button className={classes['button--alt']} onClick={onClose}>Close</button>
             {hasItems && <button className={classes.button}>Order</button>}
         </div>
-
     </Modal>);
 }
 

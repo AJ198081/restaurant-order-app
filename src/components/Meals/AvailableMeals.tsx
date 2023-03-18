@@ -35,8 +35,6 @@ interface AvailableMealsProps {
 
 }
 
-
-
 const AvailableMeals = ({}: AvailableMealsProps): JSX.Element => {
 
     const mealsList = DUMMY_MEALS.map(meal => {
@@ -51,7 +49,6 @@ const AvailableMeals = ({}: AvailableMealsProps): JSX.Element => {
                 {mealsList}
             </ul>
         </Card>
-
     </section>
 }
 

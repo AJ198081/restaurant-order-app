@@ -5,9 +5,7 @@ import meals from '../../assets/meals.jpg';
 import classes from './Header.module.css';
 import HeaderCartButton from "./HeaderCartButton";
 
-interface HeaderProps {
-
-}
+interface HeaderProps {}
 
 interface HeaderProps {
     onShowCart: () => void;

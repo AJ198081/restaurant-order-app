@@ -6,7 +6,6 @@ import React, {useRef, useState} from "react";
 interface MealItemFormProps {
     id: string;
     onAddToCart: (enteredAmount: number) => void
-
 }
 
 const MealItemForm = ({id, onAddToCart}: MealItemFormProps): JSX.Element => {
@@ -25,7 +24,6 @@ const MealItemForm = ({id, onAddToCart}: MealItemFormProps): JSX.Element => {
         const enteredAmount = amountInputRef.current && parseInt(amountInputRef.current.value);
 
         enteredAmount && onAddToCart(enteredAmount);
-
     }
 
     return <form className={classes.form} onSubmit={submitHandler}>

@@ -53,7 +53,6 @@ const cartReducer = (state: CartStateType, action: Action) => {
                 };
 
             case 'REMOVE':
-
                 const indexOfExistingItem = state.items.findIndex(item => item.id === payload.id);
 
                 if (indexOfExistingItem !== -1) {
@@ -107,11 +106,9 @@ const CartContextProvider = ({children}: CartContextProviderProps) => {
         removeItem: removeItemHandler
     } as CartContextType;
 
-
     return <CartContext.Provider value={cartContext}>
         {children}
     </CartContext.Provider>;
-
 }
 
 export default CartContextProvider;

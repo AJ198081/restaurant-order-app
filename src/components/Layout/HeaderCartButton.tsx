@@ -11,7 +11,6 @@ interface HeaderCartButtonProps {
 const HeaderCartButton = ({ onClick }: HeaderCartButtonProps): JSX.Element=> {
 
     const cartContext = useContext(CartContext);
-
     const [animated, setAnimated] = useState<boolean>(false);
 
     const totalItemsInCart = cartContext.items.reduce((total, currentValue) => {

@@ -8,7 +8,6 @@ function App() {
 
     const [cartVisible, setCartVisible] = useState<boolean>(false);
 
-
     const showCartHandler = () => {
         setCartVisible(true);
     }
@@ -16,7 +15,6 @@ function App() {
     const hideCartHandler = () => {
         setCartVisible(false);
     }
-
 
     return (
         <CartContextProvider>

@@ -24,7 +24,6 @@ const MealItem = ({id, name, description, price}: MealItemProps): JSX.Element =>
         });
     }
 
-
     return (<li className={classes.meal}>
         <div>
             <h3>{name}</h3>

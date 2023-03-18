@@ -1,9 +1,7 @@
 // @ts-ignore
 import classes from './MealsSummary.module.css';
 
-interface MealsSummaryProps {
-
-}
+interface MealsSummaryProps {}
 
 const MealsSummary = ({}: MealsSummaryProps) => {
 
