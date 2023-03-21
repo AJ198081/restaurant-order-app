@@ -6,10 +6,12 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "json-server": "npx json-server --watch src/data/db.json --port 3500"
   },
   "dependencies": {
     "bulma": "^0.9.4",
+    "json-server": "^0.17.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
