@@ -10,6 +10,33 @@ interface AvailableMealsProps {
 
 const baseUrl = 'http://localhost:3500/meals';
 
+function fetchAllMeals(abortController: AbortController, setMeals: (value: (((prevState: MealItemProps[]) => MealItemProps[]) | MealItemProps[])) => void, setIsLoading: (value: (((prevState: boolean) => boolean) | boolean)) => void, setError: (value: (((prevState: (AxiosError<unknown, any> | string | null | undefined)) => (AxiosError<unknown, any> | string | null | undefined)) | AxiosError<unknown, any> | string | null | undefined)) => void) {
+    axios.get(baseUrl, {
+        headers: {
+            'Accept': 'application/json'
+        },
+        signal: abortController.signal
+    })
+         .then(response => {
+             setMeals(response.data as MealItemProps[]);
+             setIsLoading(false);
+         })
+         .catch(e => {
+             setIsLoading(false);
+
+             if (e instanceof CanceledError) {
+                 return;
+             } else if (e instanceof AxiosError) {
+                 setError(e.code
+                              ? e.code
+                              : e);
+             } else {
+                 setError(e);
+                 throw Error(e);
+             }
+         });
+}
+
 const AvailableMeals = ({}: AvailableMealsProps): JSX.Element => {
 
     const [meals, setMeals] = useState<MealItemProps[]>([]);
@@ -21,28 +48,7 @@ const AvailableMeals = ({}: AvailableMealsProps): JSX.Element => {
 
         setIsLoading(true);
 
-        axios.get(baseUrl, {
-            headers: {
-                'Accept': 'application/json'
-            },
-            signal: abortController.signal
-        })
-             .then(response => {
-                 setMeals(response.data as MealItemProps[]);
-                 setIsLoading(false);
-             })
-             .catch(e => {
-                 setIsLoading(false);
-
-                 if (e instanceof CanceledError) {
-                     return;
-                 } else if (e instanceof AxiosError) {
-                     setError(e.code ? e.code : e);
-                 } else {
-                     setError(e);
-                     throw Error(e);
-                 }
-             });
+        fetchAllMeals(abortController, setMeals, setIsLoading, setError);
 
         return () => {
             abortController.abort('Cancelled by abort abortController');
@@ -59,9 +65,13 @@ const AvailableMeals = ({}: AvailableMealsProps): JSX.Element => {
         <Card>
             <ul>
                 {isLoading
-                    ? <p>Data is being fetched</p>
+                    ? <p className={classes.MealsLoading}>Data is being fetched</p>
                     :  error !== null
-                        ? <p style={{color: 'darkred'}}>{error!.toString()}</p>
+                        ? <p style={{
+                            color: 'red',
+                            textAlign: "center"
+                        }}>{error!.toString()}</p>
+
                         : mealsList}
             </ul>
         </Card>
