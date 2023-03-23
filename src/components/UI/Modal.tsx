@@ -4,15 +4,17 @@ import React, {Fragment} from "react";
 import ReactDOM from "react-dom";
 
 interface ModalProps {
-    onClick: () => void
+    onClose: () => void
         children: React.ReactNode;
 }
 
 interface BackdropProps {
+    onClose: () => void
+    // children: React.ReactNode;
 }
 
-const Backdrop = (props: BackdropProps): JSX.Element => {
-    return <div className={classes.backdrop} />
+const Backdrop = ({ onClose}: BackdropProps): JSX.Element => {
+    return <div onClick={onClose} className={classes.backdrop} />
 }
 
 interface OverLayProps {
@@ -25,13 +27,13 @@ const OverLay = ({children}: OverLayProps): JSX.Element => {
     </div>;
 }
 
-const Modal = ({children}: ModalProps): JSX.Element => {
+const Modal = ({onClose, children}: ModalProps): JSX.Element => {
 
     const elementById: HTMLElement = document.getElementById('overlay')!;
 
     return <Fragment>
-        {ReactDOM.createPortal(<Backdrop />, elementById)}
-        <Backdrop />
+        {ReactDOM.createPortal(<Backdrop onClose={onClose}/>, elementById)}
+        {/*<Backdrop />*/}
         <OverLay>{children}</OverLay>
     </Fragment>
 }
